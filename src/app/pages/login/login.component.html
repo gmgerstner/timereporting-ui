@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card mt-2">
+        <div class="card-body">
+          <h2 class="card-title">
+            Login
+          </h2>
+          <div class="row">
+            <div class="col mb-2">
+              <div class="form-group">
+                <label>User Name</label>
+                <input name="username" type="text" class="form-control" placeholder="User Name" [(ngModel)]="username">
+              </div>
+            </div>            
+          </div>
+          <div class="row">
+            <div class="col mb-2">
+              <div class="form-group">
+                <label>Password</label>
+                <input name="password" type="password" class="form-control" placeholder="Password" [(ngModel)]="password">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mb-2">
+              <input name="rememberLogin" id="rememberLogin_0" type="checkbox" [(ngModel)]="rememberLogin" class="form-control-input"> Remember Login
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <button type="button" class="btn btn-primary mr-1" (click)="onLoginClick()"><fa-icon [icon]="['fas', 'spinner']" [spin]="true" *ngIf="loggingIn"></fa-icon> Login</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

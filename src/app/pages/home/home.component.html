@@ -1,0 +1,158 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="card mt-3">
+        <div class="card-body">
+          <h3>Time Entry</h3>
+          <div class="row">
+            <div class="col">
+
+              <div class="row mb-2">
+                <div class="container">
+                  <div class="row"><div class="col"><label class="form-label" for="startendtime_hh">Start/End Time</label></div></div>
+                  <div class="row">
+                    <div class="col">
+                      <select id="startendtime_hh" name="startendtime_hh" class="form-select time-dropdown d-inline me-1" [(ngModel)]="selectedHour">
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                      </select>
+                      <select id="startendtime_mm" name="startendtime_mm" class="form-select time-dropdown d-inline me-2" [(ngModel)]="selectedMinute">
+                        <option value="00">00</option>
+                        <option value="15">15</option>
+                        <option value="30">30</option>
+                        <option value="45">45</option>
+                      </select>
+                      <select id="startendtime_tt" name="startendtime_tt" class="form-select time-dropdown d-inline me-3" [(ngModel)]="selectedTT">
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                      </select>
+                      <button class="btn btn-primary d-inline me-1" (click)="onNowClicked()">Now</button>
+                      <button class="btn btn-primary d-inline me-1" (click)="onShiftMinutesClicked(+15)">+15</button>
+                      <button class="btn btn-primary d-inline" (click)="onShiftMinutesClicked(-15)">-15</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="input-group mb-3">
+                    <div class="dropdown input-group-prepend">
+                      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><fa-icon [icon]="['fas', 'search']"></fa-icon></button>
+                      <ul class="dropdown-menu">
+                        <li *ngFor="let title of commonTitles"><a class="dropdown-item" (click)="onTimeEntrySelect(title)" href="#">{{title}}</a></li>
+                        <li *ngIf="commonTitles.length > 0" class="dropdown-divider"></li>
+                        <li *ngFor="let title of recentTitles"><a class="dropdown-item" (click)="onTimeEntrySelect(title)" href="#">{{title}}</a></li>
+                      </ul>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="currentTitle">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-2">
+                <div class="col">
+                  <button class="btn btn-primary me-2" (click)="onStartClockClicked()" disabled="{{currentTitle == null || currentTitle == '' ? 'disabled' : null}}">Start Clock</button>
+                  <button class="btn btn-primary" (click)="onStopClockClicked()" disabled="{{currentTimeEntries == null || currentTimeEntries.length == 0 ? 'disabled' : null}}">Stop Clock</button>
+                </div>
+              </div>
+
+            </div>
+            <div class="col"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mt-1">
+      <div class="card">
+        <div class="card-body">
+          <h3>Schedule</h3>
+          <table class="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let entry of currentTimeEntries">
+                <td>
+                  <span style=" white-space: nowrap;">
+                    <button type="button" class="btn btn-sm btn-default" (click)="onResumeTimeEntry(entry.title)"><fa-icon [icon]="['fas', 'play']"></fa-icon></button>
+                    <app-edit-time-entry [timeEntryId]="entry.timeEntryId" (editItem)="onTimeEntryEdit($event)"></app-edit-time-entry>
+                    <app-time-entry-confirm-delete [timeEntryId]="entry.timeEntryId" (deleteItem)="onTimeEntryDelete($event)"></app-time-entry-confirm-delete>
+                  </span>
+                </td>
+                <!--<td><a href="https://crlcorp.service-now.com/text_search_exact_match.do?sysparm_search={{cleanTitle(entry.title)}}" target="_blank">{{entry.title}}</a></td>-->
+                <td>{{entry.title}}</td>
+                <td>{{formatTime(entry.startTime)}}</td>
+                <td>{{formatTime(entry.endTime)}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col">
+      <div class="card mt-1 mb-3">
+        <div class="card-body">
+          <h3>Timesheet</h3>
+          <a href="{{timesheetPortalUrl}}" target="_blank">{{timesheetPortalName}}</a>
+          <hr />
+          <div class="container w-100">
+            <div class="row">
+              <div class="col"><input type="date" class="form-control" [(ngModel)]="scheduleDate" (ngModelChange)="onScheduleDateChange($event)" /></div>
+              <div class="col-1"><button type="button" class="btn btn-sm btn-primary" (click)="onScheduleDateTodayClicked()">Today</button></div>
+              <div class="col-1"><button type="button" class="btn btn-sm btn-primary" (click)="onScheduleDatePreviousClicked()">Previous</button></div>
+              <div class="col-1"><button type="button" class="btn btn-sm btn-primary" (click)="onScheduleDateNextClicked()">Next</button></div>
+            </div>
+          </div>          <br />
+          <div>Total Hours: {{getTotalHours()}}</div>
+          <table class="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Total Hours</th>
+                <!--<th>Service Now</th>-->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let entry of currentTimeSheetEntries">
+                <td>
+                  <span style=" white-space: nowrap;">
+                    <button type="button" class="btn btn-sm btn-default" (click)="onResumeTimeEntry(entry.title)"><fa-icon [icon]="['fas', 'play']"></fa-icon></button>
+                  </span>
+                </td>
+                <td>{{entry.title}}</td>
+                <td>{{entry.totalHours}}</td>
+                <!--<td><a href="https://crlcorp.service-now.com/text_search_exact_match.do?sysparm_search={{cleanTitle(entry.title)}}" target="_blank">Search</a></td>-->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      &nbsp;
+    </div>
+  </div>
+</div>

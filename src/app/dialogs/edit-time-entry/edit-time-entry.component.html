@@ -1,0 +1,115 @@
+<button class="btn btn-sm btn-default" (click)="onEditTimeEntryClick(content)"><fa-icon [icon]="['far', 'edit']"></fa-icon></button>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit Time Entry</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Close')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+
+      <div class="row">
+        <div class="col">
+          <div class="input-group mb-3">
+            <div class="dropdown input-group-prepend">
+              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><fa-icon [icon]="['fas', 'search']"></fa-icon></button>
+              <ul class="dropdown-menu">
+                <li *ngFor="let title of commonTitles"><a class="dropdown-item" (click)="onTimeEntrySelect(title)" href="#">{{title}}</a></li>
+                <li *ngIf="commonTitles.length > 0" class="dropdown-divider"></li>
+                <li *ngFor="let title of recentTitles"><a class="dropdown-item" (click)="onTimeEntrySelect(title)" href="#">{{title}}</a></li>
+              </ul>
+            </div>
+            <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="timeEntry.title">
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <label for="starttime_hh">Start Time</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <select id="starttime_hh" name="starttime_hh" class="form-select time-dropdown d-inline me-1" [(ngModel)]="currentStartHour">
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>
+              <select id="starttime_mm" name="starttime_mm" class="form-select time-dropdown d-inline me-2" [(ngModel)]="currentStartMinute">
+                <option value="00">00</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
+                <option value="45">45</option>
+              </select>
+              <select id="starttime_tt" name="starttime_tt" class="form-select time-dropdown d-inline me-3" [(ngModel)]="currentStartTT">
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
+              <button class="btn btn-primary d-inline me-1" (click)="onStartNowClicked()">Now</button>
+              <button class="btn btn-primary d-inline me-1" (click)="onStartShiftMinutesClicked(+15)">+15</button>
+              <button class="btn btn-primary d-inline" (click)="onStartShiftMinutesClicked(-15)">-15</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <input name="endTimeCheckbox" id="endTimeCheckbox_0" type="checkbox" checked="checked" class="form-control-input d-inline me-1" [(ngModel)]="currentEndHasValue">
+              <label for="endTimeCheckbox_0" class="form-control-label d-inline">End Time</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <select id="endtime_hh" name="endtime_hh" class="form-select time-dropdown d-inline me-1" [(ngModel)]="currentEndHour" [disabled]="!currentEndHasValue">
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>
+              <select id="endtime_mm" name="endtime_mm" class="form-select time-dropdown d-inline me-2" [(ngModel)]="currentEndMinute" [disabled]="!currentEndHasValue">
+                <option value="00">00</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
+                <option value="45">45</option>
+              </select>
+              <select id="endtime_tt" name="endtime_tt" class="form-select time-dropdown time-dropdown d-inline me-3" [(ngModel)]="currentEndTT" [disabled]="!currentEndHasValue">
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
+              <button class="btn btn-primary d-inline me-1" (click)="onEndNowClicked()" [disabled]="!currentEndHasValue">Now</button>
+              <button class="btn btn-primary d-inline me-1" (click)="onEndShiftMinutesClicked(+15)" [disabled]="!currentEndHasValue">+15</button>
+              <button class="btn btn-primary d-inline" (click)="onEndShiftMinutesClicked(-15)" [disabled]="!currentEndHasValue">-15</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save')">Save</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cancel')">Cancel</button>
+  </div>
+</ng-template>
