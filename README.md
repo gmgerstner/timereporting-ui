@@ -32,3 +32,10 @@ npm run copy
   - Site Name
   - Physical path to the folder created above
   - Binding and Host name information as desired
+- Open the package.json file and update the folder paths for copy and deploy to the physical path for the UI code.
+- Open the environment.prod.ts file and adjust the url to point to the correct api path.
+- In a command prompt (or powershell) run:
+  ```
+  npm install
+  npm run deploy
+  ```
