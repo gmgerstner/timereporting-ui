@@ -39,3 +39,4 @@ npm run copy
   npm install
   npm run deploy
   ```
+- Install the API (see https://github.com/gmgerstner/timereporting-api)
