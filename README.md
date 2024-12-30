@@ -23,3 +23,12 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ng build --prod
 npm run copy
 ```
+
+## Initial Installation on Server
+
+- Create a folder for the UI code.
+- In IIS right-click Sites and select Add WebSite
+- Enter the following:
+  - Site Name
+  - Physical path to the folder created above
+  - Binding and Host name information as desired
