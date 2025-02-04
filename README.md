@@ -2,7 +2,7 @@
 
 The Time Reporting User Interface is for recording time spent on individual tasks for use with any timesheet system. This code is the client side (UI) logic.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.1.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.
 
 ## Development server
 
